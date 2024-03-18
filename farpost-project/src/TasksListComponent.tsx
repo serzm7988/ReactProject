@@ -2,18 +2,12 @@ import { useState, useEffect } from "react";
 import Tasks from "./Tasks";
 import Button from "./ButtonComponent";
 import "./TaskList.css";
-import Editing from "./Editing";
-
-type Task = {
-    name: string;
-    date: string;
-    priority: string;
-    marks: string[];
-    description: string;
-};
+import EditingComponent from "./EditingComponent";
+import ViewingComponent from "./ViewingComponent";
+import Task from "./TaskType";
 
 interface Props {
-    changePage: (newPage: React.ReactNode) => void;
+    ChangePage: (newPage: React.ReactNode) => void;
 }
 
 const fetchDataFromApi = async (): Promise<Task[] | null> => {
@@ -30,10 +24,11 @@ const fetchDataFromApi = async (): Promise<Task[] | null> => {
     }
 };
 
-const TasksListComponent: React.FC<Props> = ({ changePage }) => {
+const TasksListComponent: React.FC<Props> = ({ ChangePage }) => {
     let [tasks, setTasks] = useState<Task[]>([]);
     const AddTask = () => {
         let task: Task = {
+            id: "",
             name: "",
             date: new Date().toString(),
             priority: "",
@@ -63,7 +58,13 @@ const TasksListComponent: React.FC<Props> = ({ changePage }) => {
     };
 
     const OpenEditing = (editingTask: Task) => {
-        changePage(<Editing task={editingTask} />);
+        ChangePage(<EditingComponent task={editingTask} />);
+    };
+
+    const OpenViewing = (editingTask: Task) => {
+        ChangePage(
+            <ViewingComponent ChangePage={ChangePage} task={editingTask} />
+        );
     };
 
     useEffect(() => {
@@ -119,7 +120,7 @@ const TasksListComponent: React.FC<Props> = ({ changePage }) => {
                     </p>
                 </div>
             </div>
-            <Tasks tasks={tasks} />
+            <Tasks openViewing={OpenViewing} tasks={tasks} />
         </div>
     );
 };

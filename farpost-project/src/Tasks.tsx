@@ -1,13 +1,12 @@
 import { useState, useEffect } from "react";
-type Task = {
-    name: string;
-    date: string;
-    priority: string;
-    marks: string[];
-    description: string;
-};
+import Task from "./TaskType";
 
-const Tasks: React.FC<{ tasks: Task[] }> = ({ tasks }) => {
+interface Props {
+    openViewing: (task: Task) => void;
+    tasks: Task[];
+}
+
+const Tasks: React.FC<Props> = ({ openViewing, tasks }) => {
     let [now, setTime] = useState<Date>(new Date());
     useEffect(() => {
         const interval = setInterval(() => {
@@ -16,10 +15,13 @@ const Tasks: React.FC<{ tasks: Task[] }> = ({ tasks }) => {
 
         return () => clearInterval(interval);
     }, []);
+    const OpenViewing = (task: Task) => {
+        openViewing(task);
+    };
     return (
         <div className="Tasks">
             {tasks.map((task) => (
-                <div className="Task">
+                <div className="Task" onClick={() => openViewing(task)}>
                     <p>{task.name}</p>
                     <p>{AddDate(new Date(task.date), now)}</p>
                     <p>Приоритет: {task.priority}</p>

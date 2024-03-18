@@ -1,22 +1,13 @@
 import { useState } from "react";
 import TaskListComponent from "./TasksListComponent";
-import Editing from "./Editing";
 import "./App.css";
 
-type Task = {
-    name: string;
-    date: string;
-    priority: string;
-    marks: string[];
-    description: string;
-};
-
 function App() {
-    const changePage = (newPage: React.ReactNode) => {
+    const ChangePage = (newPage: React.ReactNode) => {
         setPage(newPage);
     };
     let [page, setPage] = useState<React.ReactNode>(
-        <TaskListComponent changePage={changePage} />
+        <TaskListComponent ChangePage={ChangePage} />
     );
 
     return (
