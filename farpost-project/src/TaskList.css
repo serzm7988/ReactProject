@@ -1,0 +1,45 @@
+.App-main {
+    display: flex;
+    flex-direction: column;
+    align-items: end;
+    padding: 1%;
+    background-color: rgb(102, 206, 38);
+}
+
+.Settings {
+    display: flex;
+    flex-direction: column;
+    width: 15%;
+    position: fixed;
+    align-self: start;
+    background-color: rgb(142, 30, 131);
+}
+
+.Sorting {
+    background-color: rgb(30, 133, 142);
+}
+
+.Filters {
+    background-color: rgb(222, 22, 25);
+}
+
+.Buttons {
+    display: flex;
+    height: 50px;
+    width: 80%;
+    background-color: rgb(142, 30, 45);
+}
+
+.Tasks {
+    display: flex;
+    flex-direction: column;
+    width: 80%;
+}
+
+.Task {
+    display: flex;
+    flex-direction: column;
+    width: 90%;
+    margin: 2%;
+    background-color: white;
+}
