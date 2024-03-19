@@ -10,12 +10,7 @@ function App() {
         <TaskListComponent ChangePage={ChangePage} />
     );
 
-    return (
-        <div className="App">
-            <header className="App-header"></header>
-            {page}
-        </div>
-    );
+    return <div className="App">{page}</div>;
 }
 
 export default App;

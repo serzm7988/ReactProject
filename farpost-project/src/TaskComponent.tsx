@@ -2,11 +2,12 @@ import { useState, useEffect } from "react";
 import Task from "./TaskType";
 
 interface Props {
-    openViewing: (task: Task) => void;
-    tasks: Task[];
+    openViewing: (task: Task, id: any) => void;
+    task: Task;
+    id: any;
 }
 
-const Tasks: React.FC<Props> = ({ openViewing, tasks }) => {
+const TaskComponent: React.FC<Props> = ({ openViewing, task, id }) => {
     let [now, setTime] = useState<Date>(new Date());
     useEffect(() => {
         const interval = setInterval(() => {
@@ -15,19 +16,12 @@ const Tasks: React.FC<Props> = ({ openViewing, tasks }) => {
 
         return () => clearInterval(interval);
     }, []);
-    const OpenViewing = (task: Task) => {
-        openViewing(task);
-    };
     return (
-        <div className="Tasks">
-            {tasks.map((task) => (
-                <div className="Task" onClick={() => openViewing(task)}>
-                    <p>{task.name}</p>
-                    <p>{AddDate(new Date(task.date), now)}</p>
-                    <p>Приоритет: {task.priority}</p>
-                    <p>Отметки: {task.marks}</p>
-                </div>
-            ))}
+        <div className="Task">
+            <p onClick={() => openViewing(task, id)}>{task.name}</p>
+            <p>{AddDate(new Date(task.date), now)}</p>
+            <p>Приоритет: {task.priority}</p>
+            <p>Отметки: {task.marks}</p>
         </div>
     );
 };
@@ -71,4 +65,4 @@ function AddDate(date: Date, now: Date) {
     return text;
 }
 
-export default Tasks;
+export default TaskComponent;

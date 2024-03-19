@@ -1,9 +1,6 @@
+body {
+    background-color: whitesmoke;
+}
 .App {
     display: flex;
-    flex-direction: column;
-}
-
-.App-header {
-    display: flex;
-    background-color: aqua;
 }
