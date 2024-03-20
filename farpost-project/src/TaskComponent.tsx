@@ -18,7 +18,9 @@ const TaskComponent: React.FC<Props> = ({ openViewing, task, id }) => {
     }, []);
     return (
         <div className="Task">
-            <p onClick={() => openViewing(task, id)}>{task.name}</p>
+            <p id="Name" onClick={() => openViewing(task, id)}>
+                {task.name}
+            </p>
             <p>{AddDate(new Date(task.date), now)}</p>
             <p>Приоритет: {task.priority}</p>
             <p>Отметки: {task.marks}</p>

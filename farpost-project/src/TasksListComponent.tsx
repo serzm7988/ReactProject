@@ -6,15 +6,39 @@ import EditingComponent from "./EditingComponent";
 import ViewingComponent from "./ViewingComponent";
 import TaskComponent from "./TaskComponent";
 import Task from "./TaskType";
+import SettingsComponent from "./SettingsComponent";
 
 interface Props {
     ChangePage: (newPage: React.ReactNode) => void;
 }
 
-let arr: any[] = [];
+type TaskWithId = {
+    task: Task;
+    id: any;
+};
 
 const TasksListComponent: React.FC<Props> = ({ ChangePage }) => {
-    let [tasks, setTasks] = useState<Task[]>([]);
+    let [tasks, setTasks] = useState<TaskWithId[]>([]);
+    let [sortByNew, setSort] = useState<boolean>(true);
+    let [priorityFilter, setPriorityFilter] = useState<string[]>([
+        "low",
+        "normal",
+        "high",
+    ]);
+    let [marksFilter, setMarksFilter] = useState<string[]>([
+        "reseach",
+        "design",
+        "development",
+    ]);
+    const ChangeSort = (changedSort: boolean) => {
+        setSort(changedSort);
+    };
+    const ChangePriorityFilter = (changedPriorityFilter: string[]) => {
+        setPriorityFilter(changedPriorityFilter);
+    };
+    const ChangeMarksFilter = (changedMarksFilter: string[]) => {
+        setMarksFilter(changedMarksFilter);
+    };
     const GetTasks = async () => {
         fetch("http://localhost:3000/tasks", {
             method: "GET",
@@ -29,9 +53,34 @@ const TasksListComponent: React.FC<Props> = ({ ChangePage }) => {
                 }
             })
             .then((data: any[]) => {
-                setTasks(data);
-                arr = data.map((element: any) => element.id);
-                console.log("Массив ID всех элементов:", arr);
+                let arrayOfElements: TaskWithId[] = [];
+                for (let i in data) {
+                    let marks: string[] = data[i].marks;
+                    if (
+                        priorityFilter.includes(data[i].priority) &&
+                        marks.every((element) => marksFilter.includes(element))
+                    ) {
+                        let element: TaskWithId = {
+                            task: data[i],
+                            id: data[i].id,
+                        };
+                        arrayOfElements.push(element);
+                    }
+                }
+                if (sortByNew)
+                    arrayOfElements.sort(
+                        (e1, e2) =>
+                            new Date(e2.task.date).getTime() -
+                            new Date(e1.task.date).getTime()
+                    );
+                else
+                    arrayOfElements.sort(
+                        (e1, e2) =>
+                            new Date(e1.task.date).getTime() -
+                            new Date(e2.task.date).getTime()
+                    );
+                setTasks(arrayOfElements);
+                console.log("Массив элементов успешно получен");
             })
             .catch((error: Error) => {
                 console.error(
@@ -72,8 +121,7 @@ const TasksListComponent: React.FC<Props> = ({ ChangePage }) => {
 
     useEffect(() => {
         GetTasks();
-    }, []);
-
+    });
     const OpenEditing = (editingTask: Task, id: any) => {
         ChangePage(
             <EditingComponent
@@ -100,48 +148,23 @@ const TasksListComponent: React.FC<Props> = ({ ChangePage }) => {
                 <Button
                     handleClick={AddTask}
                     buttonName="Добавить задачу"
-                    buttonId="1"
+                    buttonId="AddButton"
                 />
             </div>
-            <div className="Settings">
-                <div className="Sorting">
-                    <p>Сортировка</p>
-                    <p>
-                        <input type="radio" name="Sort" checked></input> Новые
-                    </p>
-                    <p>
-                        <input type="radio" name="Sort"></input> Старые
-                    </p>
-                </div>
-                <div className="Filters">
-                    <p>Приоритет</p>
-                    <p>
-                        <input type="checkbox" name="Priority"></input> Low
-                    </p>
-                    <p>
-                        <input type="checkbox" name="Priority"></input> Normal
-                    </p>
-                    <p>
-                        <input type="checkbox" name="Priority"></input> High
-                    </p>
-                    <p>Отметка</p>
-                    <p>
-                        <input type="checkbox" name="Mark>"></input> Reseach
-                    </p>
-                    <p>
-                        <input type="checkbox" name="Mark>"></input> Design
-                    </p>
-                    <p>
-                        <input type="checkbox" name="Mark>"></input> Development
-                    </p>
-                </div>
-            </div>
+            <SettingsComponent
+                sortByNew={sortByNew}
+                priorityFilter={priorityFilter}
+                marksFilter={marksFilter}
+                ChangeSort={ChangeSort}
+                ChangePriorityFilter={ChangePriorityFilter}
+                ChangeMarksFilter={ChangeMarksFilter}
+            />
             <div className="Tasks">
-                {tasks.map((task, index) => (
+                {tasks.map((element) => (
                     <TaskComponent
                         openViewing={OpenViewing}
-                        task={task}
-                        id={arr[index]}
+                        task={element.task}
+                        id={element.id}
                     />
                 ))}
             </div>
