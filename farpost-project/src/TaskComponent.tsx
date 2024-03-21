@@ -23,7 +23,12 @@ const TaskComponent: React.FC<Props> = ({ openViewing, task, id }) => {
             </p>
             <p>{AddDate(new Date(task.date), now)}</p>
             <p>Приоритет: {task.priority}</p>
-            <p>Отметки: {task.marks}</p>
+            <p>
+                Отметки:{" "}
+                {task.marks.map((elem, index) =>
+                    index != task.marks.length - 1 ? `${elem}, ` : `${elem}`
+                )}
+            </p>
         </div>
     );
 };

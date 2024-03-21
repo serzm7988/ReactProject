@@ -40,17 +40,17 @@ const ViewingComponent: React.FC<Props> = ({ ChangePage, task, id }) => {
             });
     };
     return (
-        <div className="App-main">
+        <div className="Viewing">
             <div className="Buttons">
-                <ButtonComponent
-                    handleClick={OpenEditing}
-                    buttonName="Редактировать"
-                    buttonId="EditButton"
-                />
                 <ButtonComponent
                     handleClick={() => Back()}
                     buttonName="Назад"
                     buttonId="BackButton"
+                />
+                <ButtonComponent
+                    handleClick={OpenEditing}
+                    buttonName="Редактировать"
+                    buttonId="EditButton"
                 />
                 <ButtonComponent
                     handleClick={() => Delete()}
@@ -59,16 +59,20 @@ const ViewingComponent: React.FC<Props> = ({ ChangePage, task, id }) => {
                 />
             </div>
             <div className="Fields">
-                <p>НАЗВАНИЕ ЗАДАЧИ</p>
-                <p>{task.name}</p>
-                <p>ДАТА СОЗДАНИЯ</p>
-                <p>{new Date(task.date).toLocaleString()}</p>
-                <p>ПРИОРИТЕТ</p>
-                <p>{task.priority}</p>
-                <p>ОТМЕТКИ</p>
-                <p>{task.marks}</p>
-                <p>ОПИСАНИЕ</p>
-                <p>{task.description}</p>
+                <p className="fieldName">НАЗВАНИЕ ЗАДАЧИ</p>
+                <p className="field">{task.name}</p>
+                <p className="fieldName">ДАТА СОЗДАНИЯ</p>
+                <p className="field">{new Date(task.date).toLocaleString()}</p>
+                <p className="fieldName">ПРИОРИТЕТ</p>
+                <p className="field">{task.priority}</p>
+                <p className="fieldName">ОТМЕТКИ</p>
+                <p className="field">
+                    {task.marks.map((elem, index) =>
+                        index != task.marks.length - 1 ? `${elem}, ` : `${elem}`
+                    )}
+                </p>
+                <p className="fieldName">ОПИСАНИЕ</p>
+                <p className="field">{task.description}</p>
             </div>
         </div>
     );

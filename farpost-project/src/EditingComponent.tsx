@@ -1,6 +1,7 @@
 import Button from "./ButtonComponent";
 import ViewingComponent from "./ViewingComponent";
 import Task from "./TaskType";
+import { useState } from "react";
 
 interface Props {
     ChangePage: (newPage: React.ReactNode) => void;
@@ -9,24 +10,35 @@ interface Props {
 }
 
 const EditingComponent: React.FC<Props> = ({ ChangePage, task, id }) => {
+    const [name, setName] = useState<string>(task.name);
+    const [priority, setPriority] = useState<string>(task.priority);
+    const [marks, setMarks] = useState<string[]>(task.marks);
+    const [description, setDescription] = useState<string>(task.description);
     const Back = () => {
         ChangePage(
             <ViewingComponent ChangePage={ChangePage} task={task} id={id} />
         );
     };
     const SaveEdit = async () => {
+        const editTask: Task = {
+            name: name,
+            priority: priority,
+            marks: marks,
+            description: description,
+            date: task.date,
+        };
         try {
             const response = await fetch(`http://localhost:3000/tasks/${id}`, {
                 method: "PUT",
                 headers: {
                     "Content-Type": "application/json",
                 },
-                body: JSON.stringify(task),
+                body: JSON.stringify(editTask),
             });
 
             if (response.ok) {
                 const responseData = await response.json();
-                alert(responseData.message);
+                console.log("Обновление элемента успешно");
             } else {
                 throw new Error("Ошибка при обновлении элемента");
             }
@@ -45,27 +57,44 @@ const EditingComponent: React.FC<Props> = ({ ChangePage, task, id }) => {
             </div>
             <form className="EditingWindow">
                 <p>НАЗВАНИЕ ЗАДАЧИ</p>
-                <input type="text" value={task.name}></input>
+                <input
+                    type="text"
+                    value={name}
+                    onChange={(e) => setName(e.target.value)}
+                ></input>
                 <p>ПРИОРИТЕТ</p>
-                <select>
-                    <option selected={task.priority == "low"}>low</option>
-                    <option selected={task.priority == "normal"}>normal</option>
-                    <option selected={task.priority == "high"}>high</option>
+                <select
+                    value={priority}
+                    onChange={(e) => setPriority(e.target.value)}
+                >
+                    <option value="low">low</option>
+                    <option value="normal">normal</option>
+                    <option value="high">high</option>
                 </select>
                 <p>ОТМЕТКИ</p>
-                <select multiple size={3}>
-                    <option selected={task.marks.includes("reseach")}>
-                        reseach
-                    </option>
-                    <option selected={task.marks.includes("design")}>
-                        design
-                    </option>
-                    <option selected={task.marks.includes("development")}>
-                        development
-                    </option>
+                <select
+                    defaultValue={marks}
+                    multiple
+                    size={3}
+                    onChange={(e) =>
+                        setMarks(
+                            Array.from(
+                                e.target.selectedOptions,
+                                (item) => item.value
+                            )
+                        )
+                    }
+                >
+                    <option value="reseach">reseach</option>
+                    <option value="design">design</option>
+                    <option value="development">development</option>
                 </select>
                 <p>ОПИСАНИЕ</p>
-                <input type="text" value={task.description}></input>
+                <input
+                    type="text"
+                    value={description}
+                    onChange={(e) => setDescription(e.target.value)}
+                ></input>
                 <Button
                     handleClick={() => SaveEdit()}
                     buttonName="Сохранить"

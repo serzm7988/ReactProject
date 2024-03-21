@@ -1,3 +1,4 @@
+import "./Settings.css";
 interface Props {
     sortByNew: boolean;
     priorityFilter: string[];
@@ -34,7 +35,7 @@ const SettingsComponent: React.FC<Props> = ({
     return (
         <form className="Settings">
             <div className="Sorting">
-                <p id="Title">Сортировка</p>
+                <p className="Title">СОРТИРОВКА</p>
                 <p>
                     <input
                         type="radio"
@@ -42,7 +43,7 @@ const SettingsComponent: React.FC<Props> = ({
                         checked={sortByNew}
                         onChange={() => ChangeSort(true)}
                     ></input>{" "}
-                    Новые
+                    <label htmlFor="Sort">Новые</label>
                 </p>
                 <p>
                     <input
@@ -51,11 +52,11 @@ const SettingsComponent: React.FC<Props> = ({
                         checked={!sortByNew}
                         onChange={() => ChangeSort(false)}
                     ></input>{" "}
-                    Старые
+                    <label htmlFor="Sort">Старые</label>
                 </p>
             </div>
             <div className="Filters">
-                <p id="Title">Приоритет</p>
+                <p className="Title">ПРИОРИТЕТ</p>
                 <p>
                     <input
                         type="checkbox"
@@ -63,7 +64,7 @@ const SettingsComponent: React.FC<Props> = ({
                         checked={priorityFilter.includes("low")}
                         onChange={() => ChangePriority("low")}
                     ></input>{" "}
-                    Low
+                    <label htmlFor="Priority">Low</label>
                 </p>
                 <p>
                     <input
@@ -72,7 +73,7 @@ const SettingsComponent: React.FC<Props> = ({
                         checked={priorityFilter.includes("normal")}
                         onChange={() => ChangePriority("normal")}
                     ></input>{" "}
-                    Normal
+                    <label htmlFor="Priority">Normal</label>
                 </p>
                 <p>
                     <input
@@ -81,9 +82,9 @@ const SettingsComponent: React.FC<Props> = ({
                         checked={priorityFilter.includes("high")}
                         onChange={() => ChangePriority("high")}
                     ></input>{" "}
-                    High
+                    <label htmlFor="Priority">High</label>
                 </p>
-                <p id="Title">Отметка</p>
+                <p className="Title">ОТМЕТКА</p>
                 <p>
                     <input
                         type="checkbox"
@@ -91,7 +92,7 @@ const SettingsComponent: React.FC<Props> = ({
                         checked={marksFilter.includes("reseach")}
                         onChange={() => ChangeMarks("reseach")}
                     ></input>{" "}
-                    Reseach
+                    <label htmlFor="Mark">Reseach</label>
                 </p>
                 <p>
                     <input
@@ -100,7 +101,7 @@ const SettingsComponent: React.FC<Props> = ({
                         checked={marksFilter.includes("design")}
                         onChange={() => ChangeMarks("design")}
                     ></input>{" "}
-                    Design
+                    <label htmlFor="Mark">Design</label>
                 </p>
                 <p>
                     <input
@@ -109,7 +110,7 @@ const SettingsComponent: React.FC<Props> = ({
                         checked={marksFilter.includes("development")}
                         onChange={() => ChangeMarks("development")}
                     ></input>{" "}
-                    Development
+                    <label htmlFor="Mark">Development</label>
                 </p>
             </div>
         </form>

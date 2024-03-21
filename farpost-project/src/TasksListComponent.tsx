@@ -18,6 +18,7 @@ type TaskWithId = {
 };
 
 const TasksListComponent: React.FC<Props> = ({ ChangePage }) => {
+    let [windowWidth, setWindowWidth] = useState<number>(window.innerWidth);
     let [tasks, setTasks] = useState<TaskWithId[]>([]);
     let [sortByNew, setSort] = useState<boolean>(true);
     let [priorityFilter, setPriorityFilter] = useState<string[]>([
@@ -95,7 +96,7 @@ const TasksListComponent: React.FC<Props> = ({ ChangePage }) => {
             date: new Date().toString(),
             priority: "",
             marks: [],
-            description: "...",
+            description: "",
         };
         fetch("http://localhost:3000/tasks", {
             method: "POST",
@@ -122,6 +123,11 @@ const TasksListComponent: React.FC<Props> = ({ ChangePage }) => {
     useEffect(() => {
         GetTasks();
     });
+    useEffect(() => {
+        window.addEventListener("resize", () =>
+            setWindowWidth(window.innerWidth)
+        );
+    }, []);
     const OpenEditing = (editingTask: Task, id: any) => {
         ChangePage(
             <EditingComponent
@@ -141,34 +147,51 @@ const TasksListComponent: React.FC<Props> = ({ ChangePage }) => {
             />
         );
     };
-
     return (
-        <div className="App-main">
-            <div className="Buttons">
-                <Button
-                    handleClick={AddTask}
-                    buttonName="Добавить задачу"
-                    buttonId="AddButton"
+        <>
+            {windowWidth > 320 ? (
+                <SettingsComponent
+                    sortByNew={sortByNew}
+                    priorityFilter={priorityFilter}
+                    marksFilter={marksFilter}
+                    ChangeSort={ChangeSort}
+                    ChangePriorityFilter={ChangePriorityFilter}
+                    ChangeMarksFilter={ChangeMarksFilter}
                 />
-            </div>
-            <SettingsComponent
-                sortByNew={sortByNew}
-                priorityFilter={priorityFilter}
-                marksFilter={marksFilter}
-                ChangeSort={ChangeSort}
-                ChangePriorityFilter={ChangePriorityFilter}
-                ChangeMarksFilter={ChangeMarksFilter}
-            />
-            <div className="Tasks">
-                {tasks.map((element) => (
-                    <TaskComponent
-                        openViewing={OpenViewing}
-                        task={element.task}
-                        id={element.id}
+            ) : (
+                ""
+            )}
+            <div className="TaskList">
+                <div className="Buttons">
+                    <Button
+                        handleClick={AddTask}
+                        buttonName="Добавить задачу"
+                        buttonId="AddButton"
                     />
-                ))}
+                </div>
+                {windowWidth <= 320 ? (
+                    <SettingsComponent
+                        sortByNew={sortByNew}
+                        priorityFilter={priorityFilter}
+                        marksFilter={marksFilter}
+                        ChangeSort={ChangeSort}
+                        ChangePriorityFilter={ChangePriorityFilter}
+                        ChangeMarksFilter={ChangeMarksFilter}
+                    />
+                ) : (
+                    ""
+                )}
+                <div className="Tasks">
+                    {tasks.map((element) => (
+                        <TaskComponent
+                            openViewing={OpenViewing}
+                            task={element.task}
+                            id={element.id}
+                        />
+                    ))}
+                </div>
             </div>
-        </div>
+        </>
     );
 };
 

@@ -1,0 +1,73 @@
+.Settings {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    width: 16%;
+    min-width: 180px;
+    position: sticky;
+    align-self: start;
+    margin: 0 2% 20px 2%;
+}
+
+.Sorting {
+    margin: 0 0 20px;
+    padding: 0 20px 10px;
+    background-color: white;
+}
+
+.Filters {
+    padding: 0 20px 10px;
+    background-color: white;
+}
+
+.Title {
+    font-size: 85%;
+    margin: 30px 0 0;
+}
+
+input[type="checkbox"] {
+    appearance: none;
+    width: 1.6em;
+    height: 1.6em;
+    border-radius: 15%;
+    border: 1px solid lightgray;
+    transition: 0.2s all linear;
+    outline: none;
+    margin-right: 5px;
+    vertical-align: middle;
+}
+input[type="checkbox"]:hover {
+    background-color: lightgray;
+    box-shadow: 0 0 0 1px black;
+}
+input[type="checkbox"]:checked {
+    border: 1px solid #0091db;
+    background: url("../public/CheckMark.png") 0 0 no-repeat;
+}
+
+input[type="radio"] {
+    appearance: none;
+    width: 1.6em;
+    height: 1.6em;
+    border-radius: 50%;
+    border: 1px solid lightgray;
+    transition: 0.2s all linear;
+    outline: none;
+    margin-right: 5px;
+    vertical-align: middle;
+}
+input[type="radio"]:hover {
+    background-color: lightgray;
+    box-shadow: 0 0 0 1px black;
+}
+input[type="radio"]:checked {
+    border: 1px solid #0091db;
+}
+
+@media (max-width: 320px) {
+    .Settings {
+        width: 100%;
+        position: static;
+        margin: 0;
+    }
+}

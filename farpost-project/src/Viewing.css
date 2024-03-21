@@ -1,2 +1,54 @@
+.Viewing {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 2vh;
+}
+
+.Viewing > .Buttons {
+    display: flex;
+    height: 50px;
+    width: 90%;
+    margin: 0 0 2vh;
+}
+
+#BackButton {
+    border: 0;
+    border-radius: 3px;
+    background-color: white;
+}
+
+#EditButton {
+    border: 0;
+    border-radius: 3px;
+    margin: 0 1vh;
+    color: white;
+    background-color: #0091db;
+}
+
+#DeleteButton {
+    border: 0;
+    border-radius: 3px;
+    margin: 0 0 0 auto;
+    color: white;
+    background-color: red;
+}
+
 .Fields {
+    display: flex;
+    flex-direction: column;
+    width: 90%;
+    padding: 0 0 2vh;
+    background-color: white;
+}
+
+.fieldName {
+    font-size: 75%;
+    margin: 4vh 3vh 1vh;
+}
+
+.field {
+    font-size: 110%;
+    margin: 0 3vh;
 }

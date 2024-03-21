@@ -3,4 +3,5 @@ body {
 }
 .App {
     display: flex;
+    margin: 2vw;
 }
