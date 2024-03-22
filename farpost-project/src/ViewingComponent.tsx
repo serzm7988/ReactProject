@@ -62,7 +62,19 @@ const ViewingComponent: React.FC<Props> = ({ ChangePage, task, id }) => {
                 <p className="fieldName">НАЗВАНИЕ ЗАДАЧИ</p>
                 <p className="field">{task.name}</p>
                 <p className="fieldName">ДАТА СОЗДАНИЯ</p>
-                <p className="field">{new Date(task.date).toLocaleString()}</p>
+                <p className="field">
+                    {new Intl.DateTimeFormat("ru-RU", {
+                        day: "2-digit",
+                        month: "long",
+                    }).format(new Date(task.date)) +
+                        " " +
+                        new Intl.DateTimeFormat("en-US", {
+                            hour12: false,
+                            year: "numeric",
+                            hour: "numeric",
+                            minute: "numeric",
+                        }).format(new Date(task.date))}
+                </p>
                 <p className="fieldName">ПРИОРИТЕТ</p>
                 <p className="field">{task.priority}</p>
                 <p className="fieldName">ОТМЕТКИ</p>

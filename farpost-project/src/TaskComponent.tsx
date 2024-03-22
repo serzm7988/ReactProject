@@ -36,7 +36,18 @@ const TaskComponent: React.FC<Props> = ({ openViewing, task, id }) => {
 function AddDate(date: Date, now: Date) {
     let text: string = `создано: `;
     if (date.toLocaleDateString() != now.toLocaleDateString()) {
-        text += date.toLocaleString();
+        text +=
+            new Intl.DateTimeFormat("ru-RU", {
+                day: "2-digit",
+                month: "long",
+            }).format(date) +
+            " " +
+            new Intl.DateTimeFormat("en-US", {
+                hour12: false,
+                year: "numeric",
+                hour: "numeric",
+                minute: "numeric",
+            }).format(date);
     } else {
         let diff: number =
             now.getHours() * 60 +

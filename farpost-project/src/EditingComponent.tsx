@@ -2,6 +2,7 @@ import Button from "./ButtonComponent";
 import ViewingComponent from "./ViewingComponent";
 import Task from "./TaskType";
 import { useState } from "react";
+import "./Editing.css";
 
 interface Props {
     ChangePage: (newPage: React.ReactNode) => void;
@@ -20,34 +21,39 @@ const EditingComponent: React.FC<Props> = ({ ChangePage, task, id }) => {
         );
     };
     const SaveEdit = async () => {
-        const editTask: Task = {
-            name: name,
-            priority: priority,
-            marks: marks,
-            description: description,
-            date: task.date,
-        };
-        try {
-            const response = await fetch(`http://localhost:3000/tasks/${id}`, {
-                method: "PUT",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify(editTask),
-            });
+        if (name != "" && priority != "") {
+            const editTask: Task = {
+                name: name,
+                priority: priority,
+                marks: marks,
+                description: description,
+                date: task.date,
+            };
+            try {
+                const response = await fetch(
+                    `http://localhost:3000/tasks/${id}`,
+                    {
+                        method: "PUT",
+                        headers: {
+                            "Content-Type": "application/json",
+                        },
+                        body: JSON.stringify(editTask),
+                    }
+                );
 
-            if (response.ok) {
-                const responseData = await response.json();
-                console.log("Обновление элемента успешно");
-            } else {
-                throw new Error("Ошибка при обновлении элемента");
+                if (response.ok) {
+                    //const responseData = await response.json();
+                    console.log("Обновление элемента успешно");
+                } else {
+                    throw new Error("Ошибка при обновлении элемента");
+                }
+            } catch (error) {
+                console.error(error);
             }
-        } catch (error) {
-            console.error(error);
         }
     };
     return (
-        <div className="App-main">
+        <div className="Editing">
             <div className="Buttons">
                 <Button
                     handleClick={() => Back()}
@@ -55,14 +61,15 @@ const EditingComponent: React.FC<Props> = ({ ChangePage, task, id }) => {
                     buttonId="BackButton"
                 />
             </div>
-            <form className="EditingWindow">
-                <p>НАЗВАНИЕ ЗАДАЧИ</p>
+            <form className="Fields">
+                <p className="fieldName">НАЗВАНИЕ ЗАДАЧИ</p>
                 <input
                     type="text"
+                    id="Name"
                     value={name}
                     onChange={(e) => setName(e.target.value)}
                 ></input>
-                <p>ПРИОРИТЕТ</p>
+                <p className="fieldName">ПРИОРИТЕТ</p>
                 <select
                     value={priority}
                     onChange={(e) => setPriority(e.target.value)}
@@ -71,7 +78,7 @@ const EditingComponent: React.FC<Props> = ({ ChangePage, task, id }) => {
                     <option value="normal">normal</option>
                     <option value="high">high</option>
                 </select>
-                <p>ОТМЕТКИ</p>
+                <p className="fieldName">ОТМЕТКИ</p>
                 <select
                     defaultValue={marks}
                     multiple
@@ -89,12 +96,13 @@ const EditingComponent: React.FC<Props> = ({ ChangePage, task, id }) => {
                     <option value="design">design</option>
                     <option value="development">development</option>
                 </select>
-                <p>ОПИСАНИЕ</p>
-                <input
-                    type="text"
-                    value={description}
+                <p className="fieldName">ОПИСАНИЕ</p>
+                <textarea
+                    id="Description"
                     onChange={(e) => setDescription(e.target.value)}
-                ></input>
+                >
+                    {description}
+                </textarea>
                 <Button
                     handleClick={() => SaveEdit()}
                     buttonName="Сохранить"

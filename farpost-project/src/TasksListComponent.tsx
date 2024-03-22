@@ -26,11 +26,7 @@ const TasksListComponent: React.FC<Props> = ({ ChangePage }) => {
         "normal",
         "high",
     ]);
-    let [marksFilter, setMarksFilter] = useState<string[]>([
-        "reseach",
-        "design",
-        "development",
-    ]);
+    let [marksFilter, setMarksFilter] = useState<string[]>([]);
     const ChangeSort = (changedSort: boolean) => {
         setSort(changedSort);
     };
@@ -59,7 +55,7 @@ const TasksListComponent: React.FC<Props> = ({ ChangePage }) => {
                     let marks: string[] = data[i].marks;
                     if (
                         priorityFilter.includes(data[i].priority) &&
-                        marks.every((element) => marksFilter.includes(element))
+                        marksFilter.every((element) => marks.includes(element))
                     ) {
                         let element: TaskWithId = {
                             task: data[i],
@@ -92,10 +88,10 @@ const TasksListComponent: React.FC<Props> = ({ ChangePage }) => {
     };
     const AddTask = async () => {
         let task: Task = {
-            name: "",
+            name: "Новая задача",
             date: new Date().toString(),
-            priority: "",
-            marks: [],
+            priority: "low",
+            marks: ["reseach", "design", "development"],
             description: "",
         };
         fetch("http://localhost:3000/tasks", {
@@ -122,7 +118,7 @@ const TasksListComponent: React.FC<Props> = ({ ChangePage }) => {
 
     useEffect(() => {
         GetTasks();
-    });
+    }, [sortByNew, priorityFilter, marksFilter]);
     useEffect(() => {
         window.addEventListener("resize", () =>
             setWindowWidth(window.innerWidth)
@@ -187,6 +183,7 @@ const TasksListComponent: React.FC<Props> = ({ ChangePage }) => {
                             openViewing={OpenViewing}
                             task={element.task}
                             id={element.id}
+                            key={element.id}
                         />
                     ))}
                 </div>

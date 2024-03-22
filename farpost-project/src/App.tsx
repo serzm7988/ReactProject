@@ -3,6 +3,7 @@ import TaskListComponent from "./TasksListComponent";
 import "./App.css";
 
 function App() {
+    console.log("rerender");
     const ChangePage = (newPage: React.ReactNode) => {
         setPage(newPage);
     };
