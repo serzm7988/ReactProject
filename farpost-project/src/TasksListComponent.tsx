@@ -1,5 +1,4 @@
 import { useState, useEffect } from "react";
-import Tasks from "./TaskComponent";
 import Button from "./ButtonComponent";
 import "./TaskList.css";
 import EditingComponent from "./EditingComponent";
@@ -14,10 +13,12 @@ interface Props {
 
 type TaskWithId = {
     task: Task;
-    id: any;
+    id: string;
 };
 
 const TasksListComponent: React.FC<Props> = ({ ChangePage }) => {
+    let isAllTasksLoaded = false;
+    let [count, setCount] = useState<number>(1);
     let [windowWidth, setWindowWidth] = useState<number>(window.innerWidth);
     let [tasks, setTasks] = useState<TaskWithId[]>([]);
     let [sortByNew, setSort] = useState<boolean>(true);
@@ -26,6 +27,9 @@ const TasksListComponent: React.FC<Props> = ({ ChangePage }) => {
         "normal",
         "high",
     ]);
+    let changeCount = () => {
+        setCount((count) => count + 1);
+    };
     let [marksFilter, setMarksFilter] = useState<string[]>([]);
     const ChangeSort = (changedSort: boolean) => {
         setSort(changedSort);
@@ -45,7 +49,7 @@ const TasksListComponent: React.FC<Props> = ({ ChangePage }) => {
                     return response.json();
                 } else {
                     throw new Error(
-                        "Ошибка при получении списка элементов с бэкенда"
+                        "Ошибка при получении списка элементов с базы данных"
                     );
                 }
             })
@@ -76,7 +80,10 @@ const TasksListComponent: React.FC<Props> = ({ ChangePage }) => {
                             new Date(e1.task.date).getTime() -
                             new Date(e2.task.date).getTime()
                     );
-                setTasks(arrayOfElements);
+
+                if (15 * count >= arrayOfElements.length)
+                    setTasks(arrayOfElements);
+                else setTasks(arrayOfElements.slice(0, 15 * count));
                 console.log("Массив элементов успешно получен");
             })
             .catch((error: Error) => {
@@ -86,6 +93,7 @@ const TasksListComponent: React.FC<Props> = ({ ChangePage }) => {
                 );
             });
     };
+
     const AddTask = async () => {
         let task: Task = {
             name: "Новая задача",
@@ -118,12 +126,14 @@ const TasksListComponent: React.FC<Props> = ({ ChangePage }) => {
 
     useEffect(() => {
         GetTasks();
-    }, [sortByNew, priorityFilter, marksFilter]);
+    }, [sortByNew, priorityFilter, marksFilter, count]);
+
     useEffect(() => {
         window.addEventListener("resize", () =>
             setWindowWidth(window.innerWidth)
         );
     }, []);
+
     const OpenEditing = (editingTask: Task, id: any) => {
         ChangePage(
             <EditingComponent
@@ -143,6 +153,31 @@ const TasksListComponent: React.FC<Props> = ({ ChangePage }) => {
             />
         );
     };
+
+    const callback = function (
+        entries: IntersectionObserverEntry[],
+        observer: IntersectionObserver
+    ) {
+        if (entries.every((elem) => elem.isIntersecting))
+            setCount((count) => count + 1);
+    };
+
+    const options = {
+        root: null,
+        rootMargin: "0px",
+        threshold: [1.0],
+    };
+
+    var target = document.getElementById("Penultimate");
+
+    useEffect(() => {
+        const observer = new IntersectionObserver(callback, options);
+        if (target) observer.observe(target);
+        return () => {
+            if (target) observer.unobserve(target);
+        };
+    }, [target]);
+
     return (
         <>
             {windowWidth > 320 ? (
@@ -178,12 +213,15 @@ const TasksListComponent: React.FC<Props> = ({ ChangePage }) => {
                     ""
                 )}
                 <div className="Tasks">
-                    {tasks.map((element) => (
+                    {tasks.map((element, index) => (
                         <TaskComponent
                             openViewing={OpenViewing}
                             task={element.task}
                             id={element.id}
                             key={element.id}
+                            isPenultimate={
+                                index == tasks.length - 2 ? true : false
+                            }
                         />
                     ))}
                 </div>

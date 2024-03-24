@@ -1,23 +1,28 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import Task from "./TaskType";
 
 interface Props {
     openViewing: (task: Task, id: any) => void;
     task: Task;
-    id: any;
+    id: string;
+    isPenultimate: boolean;
 }
 
-const TaskComponent: React.FC<Props> = ({ openViewing, task, id }) => {
+const TaskComponent: React.FC<Props> = ({
+    openViewing,
+    task,
+    id,
+    isPenultimate,
+}) => {
     let [now, setTime] = useState<Date>(new Date());
     useEffect(() => {
         const interval = setInterval(() => {
             setTime(new Date());
         }, 5000);
-
         return () => clearInterval(interval);
     }, []);
     return (
-        <div className="Task">
+        <div className="Task" id={isPenultimate ? "Penultimate" : undefined}>
             <p id="Name" onClick={() => openViewing(task, id)}>
                 {task.name}
             </p>
