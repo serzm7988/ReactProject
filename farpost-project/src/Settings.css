@@ -33,8 +33,7 @@ input[type="checkbox"] {
     height: 1.6em;
     border-radius: 15%;
     border: 1px solid lightgray;
-    transition: 0.2s all linear;
-    outline: none;
+    transition: 10ms all;
     margin-right: 5px;
     vertical-align: middle;
 }
@@ -44,7 +43,7 @@ input[type="checkbox"]:hover {
 }
 input[type="checkbox"]:checked {
     border: 1px solid #0091db;
-    background: url("../public/CheckMark.png") 0 0 no-repeat;
+    background: url("../public/CheckMark.png") center/90% no-repeat;
 }
 
 input[type="radio"] {
@@ -53,8 +52,7 @@ input[type="radio"] {
     height: 1.6em;
     border-radius: 50%;
     border: 1px solid lightgray;
-    transition: 0.2s all linear;
-    outline: none;
+    transition: 10ms all;
     margin-right: 5px;
     vertical-align: middle;
 }
@@ -64,6 +62,7 @@ input[type="radio"]:hover {
 }
 input[type="radio"]:checked {
     border: 1px solid #0091db;
+    background: url("../public/RadioMark.png") center/60% no-repeat;
 }
 
 @media (max-width: 320px) {
