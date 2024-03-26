@@ -31,7 +31,6 @@ button:hover {
     flex-direction: column;
     width: 100%;
     margin: 0 2% 0 0;
-    overflow: auto;
 }
 
 .Task {
@@ -39,12 +38,12 @@ button:hover {
     flex-direction: column;
     margin: 0 0 20px;
     padding: 15px 25px;
-    line-height: 0px;
     background-color: white;
 }
 
 p#Name {
     font-size: 140%;
+    text-wrap: wrap;
 }
 
 p#Name:hover {

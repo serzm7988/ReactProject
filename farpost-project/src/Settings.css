@@ -3,7 +3,7 @@
     flex-direction: column;
     justify-content: space-between;
     width: 16%;
-    min-width: 180px;
+    min-width: 165px;
     position: sticky;
     top: 3vh;
     left: 0;
@@ -68,6 +68,7 @@ input[type="radio"]:checked {
 @media (max-width: 320px) {
     .Settings {
         width: 100%;
+        min-width: none;
         position: static;
         margin: 0;
     }

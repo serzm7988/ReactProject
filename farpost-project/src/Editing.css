@@ -34,7 +34,7 @@ textarea#Description {
 
 .Fields > select {
     overflow-y: auto;
-    width: 10%;
+    width: 250px;
     margin: 0 2%;
     padding: 5px 5px;
     border: 1px solid lightgray;

@@ -17,7 +17,6 @@ type TaskWithId = {
 };
 
 const TasksListComponent: React.FC<Props> = ({ ChangePage }) => {
-    let isAllTasksLoaded = false;
     let [count, setCount] = useState<number>(1);
     let [windowWidth, setWindowWidth] = useState<number>(window.innerWidth);
     let [tasks, setTasks] = useState<TaskWithId[]>([]);
@@ -27,9 +26,6 @@ const TasksListComponent: React.FC<Props> = ({ ChangePage }) => {
         "normal",
         "high",
     ]);
-    let changeCount = () => {
-        setCount((count) => count + 1);
-    };
     let [marksFilter, setMarksFilter] = useState<string[]>([]);
     const ChangeSort = (changedSort: boolean) => {
         setSort(changedSort);
