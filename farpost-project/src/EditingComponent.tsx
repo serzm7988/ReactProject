@@ -44,6 +44,13 @@ const EditingComponent: React.FC<Props> = ({ ChangePage, task, id }) => {
                 if (response.ok) {
                     //const responseData = await response.json();
                     console.log("Обновление элемента успешно");
+                    ChangePage(
+                        <ViewingComponent
+                            ChangePage={ChangePage}
+                            task={editTask}
+                            id={id}
+                        />
+                    );
                 } else {
                     throw new Error("Ошибка при обновлении элемента");
                 }
@@ -61,7 +68,7 @@ const EditingComponent: React.FC<Props> = ({ ChangePage, task, id }) => {
                     buttonId="BackButton"
                 />
             </div>
-            <form className="Fields">
+            <div className="Fields">
                 <p className="fieldName">НАЗВАНИЕ ЗАДАЧИ</p>
                 <input
                     type="text"
@@ -108,7 +115,7 @@ const EditingComponent: React.FC<Props> = ({ ChangePage, task, id }) => {
                     buttonName="Сохранить"
                     buttonId="SaveButton"
                 />
-            </form>
+            </div>
         </div>
     );
 };
