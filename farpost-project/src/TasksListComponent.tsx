@@ -17,6 +17,11 @@ type TaskWithId = {
 };
 
 const TasksListComponent: React.FC<Props> = ({ ChangePage }) => {
+    const options = {
+        root: null,
+        rootMargin: "0px",
+        threshold: [1.0],
+    };
     let [count, setCount] = useState<number>(1);
     let [windowWidth, setWindowWidth] = useState<number>(window.innerWidth);
     let [tasks, setTasks] = useState<TaskWithId[]>([]);
@@ -27,15 +32,19 @@ const TasksListComponent: React.FC<Props> = ({ ChangePage }) => {
         "high",
     ]);
     let [marksFilter, setMarksFilter] = useState<string[]>([]);
+
     const ChangeSort = (changedSort: boolean) => {
         setSort(changedSort);
     };
+
     const ChangePriorityFilter = (changedPriorityFilter: string[]) => {
         setPriorityFilter(changedPriorityFilter);
     };
+
     const ChangeMarksFilter = (changedMarksFilter: string[]) => {
         setMarksFilter(changedMarksFilter);
     };
+
     const GetTasks = async () => {
         fetch("http://localhost:3000/tasks", {
             method: "GET",
@@ -77,8 +86,10 @@ const TasksListComponent: React.FC<Props> = ({ ChangePage }) => {
                             new Date(e2.task.date).getTime()
                     );
 
-                if (15 * count >= arrayOfElements.length)
+                if (15 * count >= arrayOfElements.length) {
                     setTasks(arrayOfElements);
+                    setCount(-1);
+                } else if (count == -1) setTasks(arrayOfElements);
                 else setTasks(arrayOfElements.slice(0, 15 * count));
                 console.log("Массив элементов успешно получен");
             })
@@ -130,6 +141,17 @@ const TasksListComponent: React.FC<Props> = ({ ChangePage }) => {
         );
     }, []);
 
+    useEffect(() => {
+        if (count != -1) {
+            var target = document.getElementById("Penultimate");
+            const observer = new IntersectionObserver(callback, options);
+            if (target) observer.observe(target);
+            return () => {
+                if (target) observer.unobserve(target);
+            };
+        }
+    }, [tasks]);
+
     const OpenEditing = (editingTask: Task, id: any) => {
         ChangePage(
             <EditingComponent
@@ -154,25 +176,10 @@ const TasksListComponent: React.FC<Props> = ({ ChangePage }) => {
         entries: IntersectionObserverEntry[],
         observer: IntersectionObserver
     ) {
-        if (entries.every((elem) => elem.isIntersecting))
+        if (entries.every((elem) => elem.isIntersecting)) {
             setCount((count) => count + 1);
+        }
     };
-
-    const options = {
-        root: null,
-        rootMargin: "0px",
-        threshold: [1.0],
-    };
-
-    var target = document.getElementById("Penultimate");
-
-    useEffect(() => {
-        const observer = new IntersectionObserver(callback, options);
-        if (target) observer.observe(target);
-        return () => {
-            if (target) observer.unobserve(target);
-        };
-    }, [target]);
 
     return (
         <>
@@ -188,6 +195,7 @@ const TasksListComponent: React.FC<Props> = ({ ChangePage }) => {
             ) : (
                 ""
             )}
+            {count}
             <div className="TaskList">
                 <div className="Buttons">
                     <Button
