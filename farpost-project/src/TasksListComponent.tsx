@@ -195,7 +195,6 @@ const TasksListComponent: React.FC<Props> = ({ ChangePage }) => {
             ) : (
                 ""
             )}
-            {count}
             <div className="TaskList">
                 <div className="Buttons">
                     <Button
