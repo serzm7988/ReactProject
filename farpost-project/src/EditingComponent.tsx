@@ -107,9 +107,8 @@ const EditingComponent: React.FC<Props> = ({ ChangePage, task, id }) => {
                 <textarea
                     id="Description"
                     onChange={(e) => setDescription(e.target.value)}
-                >
-                    {description}
-                </textarea>
+                    value={description}
+                ></textarea>
                 <Button
                     handleClick={() => SaveEdit()}
                     buttonName="Сохранить"

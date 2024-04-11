@@ -39,20 +39,20 @@ const SettingsComponent: React.FC<Props> = ({
                 <p>
                     <input
                         type="radio"
-                        name="Sort"
+                        id="SortByNew"
                         checked={sortByNew}
                         onChange={() => ChangeSort(true)}
                     ></input>{" "}
-                    <label htmlFor="Sort">Новые</label>
+                    <label htmlFor="SortByNew">Новые</label>
                 </p>
                 <p>
                     <input
                         type="radio"
-                        name="Sort"
+                        id="SortByOld"
                         checked={!sortByNew}
                         onChange={() => ChangeSort(false)}
                     ></input>{" "}
-                    <label htmlFor="Sort">Старые</label>
+                    <label htmlFor="SortByOld">Старые</label>
                 </p>
             </div>
             <div className="Filters">
@@ -60,57 +60,57 @@ const SettingsComponent: React.FC<Props> = ({
                 <p>
                     <input
                         type="checkbox"
-                        name="Priority"
+                        id="PriorityLow"
                         checked={priorityFilter.includes("low")}
                         onChange={() => ChangePriority("low")}
                     ></input>{" "}
-                    <label htmlFor="Priority">Low</label>
+                    <label htmlFor="PriorityLow">Low</label>
                 </p>
                 <p>
                     <input
                         type="checkbox"
-                        name="Priority"
+                        id="PriorityNormal"
                         checked={priorityFilter.includes("normal")}
                         onChange={() => ChangePriority("normal")}
                     ></input>{" "}
-                    <label htmlFor="Priority">Normal</label>
+                    <label htmlFor="PriorityNormal">Normal</label>
                 </p>
                 <p>
                     <input
                         type="checkbox"
-                        name="Priority"
+                        id="PriorityHigh"
                         checked={priorityFilter.includes("high")}
                         onChange={() => ChangePriority("high")}
                     ></input>{" "}
-                    <label htmlFor="Priority">High</label>
+                    <label htmlFor="PriorityHigh">High</label>
                 </p>
                 <p className="Title">ОТМЕТКА</p>
                 <p>
                     <input
                         type="checkbox"
-                        name="Mark"
+                        id="MarkReseach"
                         checked={marksFilter.includes("reseach")}
                         onChange={() => ChangeMarks("reseach")}
                     ></input>{" "}
-                    <label htmlFor="Mark">Reseach</label>
+                    <label htmlFor="MarkReseach">Reseach</label>
                 </p>
                 <p>
                     <input
                         type="checkbox"
-                        name="Mark"
+                        id="MarkDesign"
                         checked={marksFilter.includes("design")}
                         onChange={() => ChangeMarks("design")}
                     ></input>{" "}
-                    <label htmlFor="Mark">Design</label>
+                    <label htmlFor="MarkDesign">Design</label>
                 </p>
                 <p>
                     <input
                         type="checkbox"
-                        name="Mark"
+                        id="MarkDevelopment"
                         checked={marksFilter.includes("development")}
                         onChange={() => ChangeMarks("development")}
                     ></input>{" "}
-                    <label htmlFor="Mark">Development</label>
+                    <label htmlFor="MarkDevelopment">Development</label>
                 </p>
             </div>
         </form>
