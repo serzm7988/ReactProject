@@ -1,16 +1,16 @@
 .TaskList {
     display: flex;
     flex-direction: column;
-    width: 80%;
-    margin: 0 2% 0 0;
+    align-items: end;
+    width: 100%;
 }
 
 .TaskList > .Buttons {
     flex-shrink: 0;
     display: flex;
     height: 40px;
-    width: 100%;
-    margin: 0 2% 20px 0;
+    width: calc(100% - max(calc(15vw + 20px), 185px));
+    margin: 0 0 20px;
 }
 
 #AddButton {
@@ -26,11 +26,10 @@ button:hover {
 }
 
 .Tasks {
-    align-self: auto;
     display: flex;
     flex-direction: column;
-    width: 100%;
-    margin: 0 2% 0 0;
+    width: calc(100% - max(calc(15vw + 20px), 185px));
+    margin: 0 0 20px;
 }
 
 .Task {
@@ -50,9 +49,11 @@ p#Name:hover {
     color: #49a0c8;
 }
 
-@media (max-width: 320px) {
-    .TaskList {
+@media (max-width: 450px) {
+    .Tasks {
         width: 100%;
-        margin: 0;
+    }
+    .TaskList > .Buttons {
+        width: 100%;
     }
 }

@@ -2,13 +2,10 @@
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    width: 16%;
-    min-width: 165px;
-    position: sticky;
+    width: max(15%, 165px);
+    position: fixed;
     top: 3vh;
-    left: 0;
-    align-self: start;
-    margin: 0 2% 20px 2%;
+    left: calc(2vw + 8px);
 }
 
 .Sorting {
@@ -65,11 +62,11 @@ input[type="radio"]:checked {
     background: url("../public/RadioMark.png") center/60% no-repeat;
 }
 
-@media (max-width: 320px) {
+@media (max-width: 450px) {
     .Settings {
         width: 100%;
         min-width: none;
         position: static;
-        margin: 0;
+        margin: 0 0 20px;
     }
 }

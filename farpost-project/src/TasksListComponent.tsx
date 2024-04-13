@@ -23,7 +23,6 @@ const TasksListComponent: React.FC<Props> = ({ ChangePage }) => {
         threshold: [1.0],
     };
     let [count, setCount] = useState<number>(1);
-    let [windowWidth, setWindowWidth] = useState<number>(window.innerWidth);
     let [tasks, setTasks] = useState<TaskWithId[]>([]);
     let [sortByNew, setSort] = useState<boolean>(true);
     let [priorityFilter, setPriorityFilter] = useState<string[]>([
@@ -136,12 +135,6 @@ const TasksListComponent: React.FC<Props> = ({ ChangePage }) => {
     }, [sortByNew, priorityFilter, marksFilter, count]);
 
     useEffect(() => {
-        window.addEventListener("resize", () =>
-            setWindowWidth(window.innerWidth)
-        );
-    }, []);
-
-    useEffect(() => {
         if (count != -1) {
             var target = document.getElementById("Penultimate");
             const observer = new IntersectionObserver(callback, options);
@@ -183,18 +176,6 @@ const TasksListComponent: React.FC<Props> = ({ ChangePage }) => {
 
     return (
         <>
-            {windowWidth > 320 ? (
-                <SettingsComponent
-                    sortByNew={sortByNew}
-                    priorityFilter={priorityFilter}
-                    marksFilter={marksFilter}
-                    ChangeSort={ChangeSort}
-                    ChangePriorityFilter={ChangePriorityFilter}
-                    ChangeMarksFilter={ChangeMarksFilter}
-                />
-            ) : (
-                ""
-            )}
             <div className="TaskList">
                 <div className="Buttons">
                     <Button
@@ -203,18 +184,15 @@ const TasksListComponent: React.FC<Props> = ({ ChangePage }) => {
                         buttonId="AddButton"
                     />
                 </div>
-                {windowWidth <= 320 ? (
-                    <SettingsComponent
-                        sortByNew={sortByNew}
-                        priorityFilter={priorityFilter}
-                        marksFilter={marksFilter}
-                        ChangeSort={ChangeSort}
-                        ChangePriorityFilter={ChangePriorityFilter}
-                        ChangeMarksFilter={ChangeMarksFilter}
-                    />
-                ) : (
-                    ""
-                )}
+
+                <SettingsComponent
+                    sortByNew={sortByNew}
+                    priorityFilter={priorityFilter}
+                    marksFilter={marksFilter}
+                    ChangeSort={ChangeSort}
+                    ChangePriorityFilter={ChangePriorityFilter}
+                    ChangeMarksFilter={ChangeMarksFilter}
+                />
                 <div className="Tasks">
                     {tasks.map((element, index) => (
                         <TaskComponent

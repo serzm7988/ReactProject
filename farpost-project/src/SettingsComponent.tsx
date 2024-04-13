@@ -33,7 +33,7 @@ const SettingsComponent: React.FC<Props> = ({
         }
     };
     return (
-        <form className="Settings">
+        <div className="Settings">
             <div className="Sorting">
                 <p className="Title">СОРТИРОВКА</p>
                 <p>
@@ -113,7 +113,7 @@ const SettingsComponent: React.FC<Props> = ({
                     <label htmlFor="MarkDevelopment">Development</label>
                 </p>
             </div>
-        </form>
+        </div>
     );
 };
 
